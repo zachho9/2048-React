@@ -2,6 +2,12 @@
 
 A 2048 clone built with React, TypeScript, and Vite.
 
+## Tech stack
+
+- React 18 · TypeScript (strict) · Vite
+- Jest + React Testing Library
+- Node.js 18+
+
 ## Getting started
 
 ```bash
@@ -21,7 +27,8 @@ npm run dev        # http://localhost:2048
 
 ```bash
 npm run dev        # Dev server on port 2048
-npm run build      # Production build
+npm run build      # Production build → dist/
+npm run preview    # Serve production build locally
 npm run test       # Unit tests (Jest + React Testing Library)
 npm run typecheck  # TypeScript check
 npm run lint       # ESLint
