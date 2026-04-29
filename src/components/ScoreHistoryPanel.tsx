@@ -46,7 +46,7 @@ const ScoreHistoryPanel = ({ entries }: ScoreHistoryPanelProps) => (
       <div style={{ overflowY: 'auto', maxHeight: '240px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {entries.map((entry, idx) => (
           <div
-            key={idx}
+            key={`${entry.score}-${entry.date}`}
             style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -61,7 +61,7 @@ const ScoreHistoryPanel = ({ entries }: ScoreHistoryPanelProps) => (
             >
               {entry.score}
             </span>
-            <span style={{ color: '#eee4da', fontSize: '0.7rem' }}>
+            <span data-testid={`date-${idx}`} style={{ color: '#eee4da', fontSize: '0.7rem' }}>
               {formatDate(entry.date)}
             </span>
           </div>

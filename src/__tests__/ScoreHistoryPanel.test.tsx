@@ -38,4 +38,12 @@ describe('ScoreHistoryPanel', () => {
     )
     expect(scores).toEqual([512, 256, 1024])
   })
+
+  it('renders a formatted date for each entry', () => {
+    render(<ScoreHistoryPanel entries={entries} />)
+    // entry at index 1 is '2026-04-28T09:00:00.000Z' — not today, so formatDate returns a locale string
+    const dateEl = screen.getByTestId('date-1')
+    expect(dateEl).toBeInTheDocument()
+    expect(dateEl.textContent).not.toBe('')
+  })
 })
