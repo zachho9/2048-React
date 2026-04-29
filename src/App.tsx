@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { useGame } from './hooks/useGame'
-import { Board, ScoreBox, GameOverlay, LeaderboardModal } from './components'
+import { Board, ScoreBox, GameOverlay, LeaderboardModal, ScoreHistoryPanel } from './components'
 import { Direction, LeaderboardEntry } from './types/game'
 import { addLeaderboardEntry, loadLeaderboard } from './utils/leaderboard'
+import { addScoreHistoryEntry, loadScoreHistory } from './utils/scoreHistory'
 
 const App = () => {
   const { state, move, restart } = useGame()
@@ -11,11 +12,13 @@ const App = () => {
 
   const [leaderboardOpen, setLeaderboardOpen] = useState(false)
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(() => loadLeaderboard())
+  const [history, setHistory] = useState<LeaderboardEntry[]>(() => loadScoreHistory())
 
   useEffect(() => {
     if ((state.status === 'won' || state.status === 'lost') && state.score > 0 && !scoreSaved.current) {
       scoreSaved.current = true
       setLeaderboard(addLeaderboardEntry(state.score))
+      setHistory(addScoreHistoryEntry(state.score))
     }
     if (state.status === 'playing') {
       scoreSaved.current = false
@@ -63,7 +66,7 @@ const App = () => {
         style={{
           display: 'flex',
           width: '100%',
-          maxWidth: '480px',
+          maxWidth: '680px',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
@@ -79,7 +82,7 @@ const App = () => {
         style={{
           display: 'flex',
           width: '100%',
-          maxWidth: '480px',
+          maxWidth: '680px',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
@@ -105,12 +108,22 @@ const App = () => {
       </div>
 
       <div
-        style={{ position: 'relative', width: '100%', maxWidth: '480px' }}
+        style={{
+          display: 'flex',
+          gap: '16px',
+          width: '100%',
+          maxWidth: '680px',
+          alignItems: 'flex-start',
+          flexWrap: 'wrap',
+        }}
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        <Board board={state.board} />
-        <GameOverlay status={state.status} onRestart={restart} />
+        <div style={{ position: 'relative', flex: 1, minWidth: '280px' }}>
+          <Board board={state.board} />
+          <GameOverlay status={state.status} onRestart={restart} />
+        </div>
+        <ScoreHistoryPanel entries={history} />
       </div>
 
       <p style={{ color: '#776e65', fontSize: '0.85rem', textAlign: 'center', margin: 0 }}>
