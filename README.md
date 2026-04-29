@@ -22,7 +22,7 @@ npm run dev        # http://localhost:2048
 ```bash
 npm run dev        # Dev server on port 2048
 npm run build      # Production build
-npm run test       # Unit tests (Jest)
+npm run test       # Unit tests (Jest + React Testing Library)
 npm run typecheck  # TypeScript check
 npm run lint       # ESLint
 ```
@@ -32,10 +32,10 @@ npm run lint       # ESLint
 ```
 src/
   types/       # TypeScript types
-  utils/       # Pure game logic
+  utils/       # Pure game logic and leaderboard helpers
   hooks/       # useGame — state, keyboard input, localStorage
-  components/  # Tile, Board, ScoreBox, GameOverlay
-  __tests__/   # Unit tests
+  components/  # Tile, Board, ScoreBox, GameOverlay, LeaderboardModal
+  __tests__/   # Unit and component tests
 ```
 
 ## Features
@@ -44,3 +44,4 @@ src/
 - Score tracking with best score persisted to localStorage
 - Win (2048 tile) and game over detection
 - Touch/swipe support
+- Leaderboard — top 10 scores saved to localStorage, shown in a popup modal

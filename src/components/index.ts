@@ -1,0 +1,5 @@
+export { default as Board } from './Board'
+export { default as GameOverlay } from './GameOverlay'
+export { default as LeaderboardModal } from './LeaderboardModal'
+export { default as ScoreBox } from './ScoreBox'
+export { default as Tile } from './Tile'
