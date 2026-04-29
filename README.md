@@ -32,9 +32,9 @@ npm run lint       # ESLint
 ```
 src/
   types/       # TypeScript types
-  utils/       # Pure game logic and leaderboard helpers
+  utils/       # Pure game logic, leaderboard, and score history helpers
   hooks/       # useGame — state, keyboard input, localStorage
-  components/  # Tile, Board, ScoreBox, GameOverlay, LeaderboardModal
+  components/  # Tile, Board, ScoreBox, GameOverlay, LeaderboardModal, ScoreHistoryPanel
   __tests__/   # Unit and component tests
 ```
 
@@ -45,3 +45,4 @@ src/
 - Win (2048 tile) and game over detection
 - Touch/swipe support
 - Leaderboard — top 10 scores saved to localStorage, shown in a popup modal
+- Score history — always-visible sidebar showing every game played, newest first
