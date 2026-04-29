@@ -1,13 +1,26 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useGame } from './hooks/useGame'
-import Board from './components/Board'
-import ScoreBox from './components/ScoreBox'
-import GameOverlay from './components/GameOverlay'
-import { Direction } from './types/game'
+import { Board, ScoreBox, GameOverlay, LeaderboardModal } from './components'
+import { Direction, LeaderboardEntry } from './types/game'
+import { addLeaderboardEntry, loadLeaderboard } from './utils/leaderboard'
 
 const App = () => {
   const { state, move, restart } = useGame()
   const touchStart = useRef<{ x: number; y: number } | null>(null)
+  const scoreSaved = useRef(false)
+
+  const [leaderboardOpen, setLeaderboardOpen] = useState(false)
+  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>(() => loadLeaderboard())
+
+  useEffect(() => {
+    if ((state.status === 'won' || state.status === 'lost') && state.score > 0 && !scoreSaved.current) {
+      scoreSaved.current = true
+      setLeaderboard(addLeaderboardEntry(state.score))
+    }
+    if (state.status === 'playing') {
+      scoreSaved.current = false
+    }
+  }, [state.status, state.score])
 
   const onTouchStart = (e: React.TouchEvent) => {
     const t = e.touches[0]
@@ -46,7 +59,6 @@ const App = () => {
         gap: '16px',
       }}
     >
-      {/* Header */}
       <div
         style={{
           display: 'flex',
@@ -63,7 +75,6 @@ const App = () => {
         </div>
       </div>
 
-      {/* Subtitle row */}
       <div
         style={{
           display: 'flex',
@@ -93,7 +104,6 @@ const App = () => {
         </button>
       </div>
 
-      {/* Board */}
       <div
         style={{ position: 'relative', width: '100%', maxWidth: '480px' }}
         onTouchStart={onTouchStart}
@@ -106,6 +116,28 @@ const App = () => {
       <p style={{ color: '#776e65', fontSize: '0.85rem', textAlign: 'center', margin: 0 }}>
         Use arrow keys, WASD, or swipe to move tiles.
       </p>
+
+      <button
+        onClick={() => setLeaderboardOpen(true)}
+        style={{
+          padding: '10px 32px',
+          fontWeight: 'bold',
+          fontSize: '0.95rem',
+          border: '2px solid #bbada0',
+          borderRadius: '6px',
+          backgroundColor: 'transparent',
+          color: '#776e65',
+          cursor: 'pointer',
+        }}
+      >
+        Leaderboard
+      </button>
+
+      <LeaderboardModal
+        isOpen={leaderboardOpen}
+        onClose={() => setLeaderboardOpen(false)}
+        entries={leaderboard}
+      />
     </div>
   )
 }
